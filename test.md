@@ -1,1 +1,0 @@
-[内部链接](@cpp-simple-usage/cpp1-1.com)
