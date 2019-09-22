@@ -17,6 +17,7 @@ class Article(models.Model):
 
   create_time = models.DateField('date published')
   modify_time = models.DateField('date last modified')
+  license = models.CharField(default="CC-BY-SA-3.0",max_length=64)
 
   content = models.TextField(default="")
   name = models.CharField(max_length=64)

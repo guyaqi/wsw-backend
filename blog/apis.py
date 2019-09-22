@@ -1,10 +1,10 @@
-from django.shortcuts import render
 from django.http.response import JsonResponse, HttpResponse
+from django.forms.models import model_to_dict
 
 from hashlib import sha256
 import json
 
-from .models import User
+from .models import User, Article
 
 # Create your views here.
 
@@ -99,3 +99,23 @@ def logout(request):
 
   responce = {"msg": msg}
   return JsonResponse(responce)
+
+
+def article(request, tag='index', name='home'):
+
+  res_dict = None
+
+  try:
+    the_article = Article.objects.get(tag=tag, name=name)
+    res_dict = model_to_dict(the_article)
+  except Article.DoesNotExist:
+    print('tag: '+tag+' name: '+name+' does not exist')
+    responce = HttpResponse(status=404)
+    responce['Access-Control-Allow-Origin'] = "*"
+    return responce
+  
+  responce = JsonResponse(res_dict, json_dumps_params={'ensure_ascii':False})
+
+  responce['Access-Control-Allow-Origin'] = "*"
+  return responce
+
